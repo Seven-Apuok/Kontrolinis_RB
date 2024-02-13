@@ -21,14 +21,16 @@ public class PagesTests extends SetingsTest {
         mainPage.clickSize();
         mainPage.clickSizeTipeXL();
         mainPage.clickCart();
-if(driver.findElement(By.xpath("/html//h4[@id='myModalLabel']")).equals("Product successfully added to your shopping cart")){
-    System.out.println("correct");
-}
-else {System.out.println("not correct");}
-       mainPage.clickProceed();
+        if (driver.getPageSource().contains("Product successfully added to your shopping cart")) {
+            System.out.println("correct");
+        } else {
+            System.out.println("not correct");
+        }
+        mainPage.clickProceed();
     }
+
     @Test
-   public void Sweater(){
+    public void Sweater() {
         mainPage = new MainPage(driver);
         mainPage.searcImputWindow(nameS);
         mainPage.enterKey();
@@ -38,7 +40,18 @@ else {System.out.println("not correct");}
         mainPage.clickSize();
         mainPage.clickSizeTipeM();
         mainPage.clickCart();
-        driver.getPageSource().contains("Product successfully added to your shopping cart");
-            mainPage.clickProceed();}
+
+        String expectedHeading = "Product successfully added to your shopping cart";
+        String heading = driver.findElement(By.cssSelector("#myModalLabel")).getText();
+        if(expectedHeading.equalsIgnoreCase(heading))
+            System.out.println("The expected heading is same as actual heading --- "+heading);
+        else
+            System.out.println("The expected heading doesn't match the actual heading --- "+heading);
+
+        mainPage.clickProceed();
+        if (driver.getCurrentUrl().contains("20%")) {System.out.println("yes");}else {System.out.println("no");}
+
+
 
     }
+}
